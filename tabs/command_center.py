@@ -1819,7 +1819,7 @@ def render():
         # FIX: Changed title from "Historical Stockout Events" to "Historical Safety Stock Breaches"
         st.markdown(
             "<div style='font-size:11px;font-weight:700;color:var(--t2);margin-bottom:5px;'>"
-            "Historical Safety Stock Breaches by Month & Product &amp; Product</div>",
+            "Historical Safety Stock Breaches by Month &amp; Product</div>",
             unsafe_allow_html=True,
         )
         all_breaches = []
