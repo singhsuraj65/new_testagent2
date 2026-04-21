@@ -1707,7 +1707,7 @@ def render():
         # ── Monte Carlo explanation with bold heading and bullet list ──────────
         st.markdown("""
 <div class='note-box'>
-<p style='margin:0 0 8px 0; font-weight:700;'>📊 What is Monte Carlo simulation?</p>
+<p style='margin:0 0 8px 0; font-weight:700;'>What is Monte Carlo simulation?</p>
 <ul style='margin:0; padding-left:20px;'>
 <li>Runs 1,000 possible future demand scenarios based on historical mean and standard deviation.</li>
 <li>The <strong>probability of stockout</strong> shows the percentage of scenarios where stock falls below safety stock in the next 6 months.</li>
