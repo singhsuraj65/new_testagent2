@@ -1704,13 +1704,16 @@ def render():
             st.plotly_chart(fig_mc, use_container_width=True)
 
         # REPLACED: Monte Carlo explanation with note() instead of st.expander
-        note("""
-**What is Monte Carlo simulation?**  
-- Runs 1,000 possible future demand scenarios based on historical mean and standard deviation.  
-- The **probability of stockout** shows the percentage of scenarios where stock falls below safety stock in the next 6 months.  
-- The **outcome range** (P10, P50, P90) shows possible ending stock levels under pessimistic, median, and optimistic conditions.  
-- The **histogram** visualises the distribution of possible ending stock levels.
-""")
+        st.markdown("""
+<div class='note-box'>
+<ul>
+<li><strong>What is Monte Carlo simulation?</strong> Runs 1,000 possible future demand scenarios based on historical mean and standard deviation.</li>
+<li>The <strong>probability of stockout</strong> shows the percentage of scenarios where stock falls below safety stock in the next 6 months.</li>
+<li>The <strong>outcome range</strong> (P10, P50, P90) shows possible ending stock levels under pessimistic, median, and optimistic conditions.</li>
+<li>The <strong>histogram</strong> visualises the distribution of possible ending stock levels.</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
 
     # ── Stock Trajectory ──────────────────────────────────────────────────────
     sec("Stock Trajectory")
