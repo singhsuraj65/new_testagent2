@@ -1,0 +1,320 @@
+{
+  "plant_snapshot": {
+    "total_materials": 7,
+    "critical_count": 1,
+    "warning_count": 0,
+    "healthy_count": 3,
+    "insufficient_data_count": 3,
+    "total_replenishment_units_needed": 400,
+    "skus_needing_immediate_order": 1,
+    "lowest_cover_material": "SARS-CoV-2 Plus Kit",
+    "lowest_cover_days": 0.0,
+    "generated_at": "21 April 2026 18:34"
+  },
+  "critical_materials": [
+    {
+      "material_id": "3014-0010",
+      "name": "DELFIA Wash Concentrate",
+      "risk": "CRITICAL",
+      "stock_in_hand": 22,
+      "safety_stock_sap": 150,
+      "safety_stock_aria_recommended": 64,
+      "days_cover": 1.9,
+      "lead_time_days": 3,
+      "avg_monthly_demand": 352.3,
+      "std_demand": 123.3,
+      "lot_size": 400,
+      "order_quantity_required": 400,
+      "replenishment_formula": "CEILING(128/400)×400 = 400",
+      "breach_count_total": 7,
+      "recent_breach_periods": [
+        "Jul 2024",
+        "Aug 2025",
+        "Jan 2026",
+        "Feb 2026",
+        "Mar 2026",
+        "Apr 2026"
+      ],
+      "trend": "Declining",
+      "lt_urgency": "CRITICAL - Cover < Lead Time",
+      "abcde_category": "A",
+      "temp_condition": "Z3",
+      "external_suppliers": [
+        "ISP chemicals LLC",
+        "VWR INTERNATIONAL OY",
+        "ROCHE DIAGNOSTICS DEUTSCHLAND GMBH",
+        "GRAHAM PACKAGING COMPANY OY"
+      ],
+      "data_quality_flags": []
+    }
+  ],
+  "warning_materials": [],
+  "healthy_materials": [
+    {
+      "material_id": "1244-106",
+      "name": "DELFIA Assay Buffer",
+      "risk": "HEALTHY",
+      "stock_in_hand": 101,
+      "safety_stock_sap": 5,
+      "days_cover": 694.7,
+      "lead_time_days": 3,
+      "avg_monthly_demand": 4.4,
+      "breach_count_total": 2,
+      "trend": "Rising"
+    },
+    {
+      "material_id": "13808190",
+      "name": "Microplate Deep Well (LSD)",
+      "risk": "HEALTHY",
+      "stock_in_hand": 826,
+      "safety_stock_sap": 0,
+      "days_cover": 424.6,
+      "lead_time_days": 1,
+      "avg_monthly_demand": 58.4,
+      "breach_count_total": 0,
+      "trend": "Rising"
+    },
+    {
+      "material_id": "1244-104",
+      "name": "DELFIA Enhancement Solution",
+      "risk": "HEALTHY",
+      "stock_in_hand": 55,
+      "safety_stock_sap": 10,
+      "days_cover": 177.1,
+      "lead_time_days": 3,
+      "avg_monthly_demand": 9.3,
+      "breach_count_total": 1,
+      "trend": "Rising"
+    }
+  ],
+  "safety_stock_analysis": [
+    {
+      "name": "Microplate Deep Well (LSD)",
+      "sap_ss": 0,
+      "aria_ss": 19,
+      "gap": 19,
+      "risk": "HEALTHY",
+      "lead_time": 1,
+      "std_demand": 64.5
+    },
+    {
+      "name": "DELFIA Assay Buffer",
+      "sap_ss": 5,
+      "aria_ss": 2,
+      "gap": -3,
+      "risk": "HEALTHY",
+      "lead_time": 3,
+      "std_demand": 3.0
+    },
+    {
+      "name": "DELFIA Enhancement Solution",
+      "sap_ss": 10,
+      "aria_ss": 6,
+      "gap": -4,
+      "risk": "HEALTHY",
+      "lead_time": 3,
+      "std_demand": 12.4
+    },
+    {
+      "name": "DELFIA Wash Concentrate",
+      "sap_ss": 150,
+      "aria_ss": 64,
+      "gap": -86,
+      "risk": "CRITICAL",
+      "lead_time": 3,
+      "std_demand": 123.3
+    }
+  ],
+  "breach_summary": [
+    {
+      "name": "DELFIA Wash Concentrate",
+      "breach_count": 7,
+      "risk": "CRITICAL",
+      "trend": "Declining",
+      "days_cover": 1.9
+    },
+    {
+      "name": "DELFIA Assay Buffer",
+      "breach_count": 2,
+      "risk": "HEALTHY",
+      "trend": "Rising",
+      "days_cover": 694.7
+    },
+    {
+      "name": "DELFIA Enhancement Solution",
+      "breach_count": 1,
+      "risk": "HEALTHY",
+      "trend": "Rising",
+      "days_cover": 177.1
+    },
+    {
+      "name": "Microplate Deep Well (LSD)",
+      "breach_count": 0,
+      "risk": "HEALTHY",
+      "trend": "Rising",
+      "days_cover": 424.6
+    }
+  ],
+  "replenishment_actions": [
+    {
+      "rank": 1,
+      "name": "DELFIA Wash Concentrate",
+      "material_id": "3014-0010",
+      "order_qty": 400,
+      "days_cover": 1.9,
+      "lead_time": 3,
+      "formula": "CEILING(128/400)×400 = 400"
+    }
+  ],
+  "supplier_consolidation": [
+    {
+      "supplier": "TARRAX OY",
+      "city": "Tampere, Finland",
+      "email": "asiakaspalvelu@tarrax.fi",
+      "materials": [
+        "DELFIA Enhancement Solution",
+        "DELFIA Assay Buffer",
+        "Europium Solution 200ml",
+        "Microplate Deep Well (LSD)",
+        "DELFIA Wash Concentrate",
+        "SARS-CoV-2 Plus Kit"
+      ]
+    },
+    {
+      "supplier": "INFORMA OY",
+      "city": "Turku, Finland",
+      "email": "sapostotilaukset@revvity.com",
+      "materials": [
+        "Microplate Deep Well (LSD)",
+        "Anti-AFP AF5/A2 Antibody",
+        "DELFIA Wash Concentrate",
+        "SARS-CoV-2 Plus Kit"
+      ]
+    },
+    {
+      "supplier": "GRAHAM PACKAGING COMPANY OY",
+      "city": "Hyvinkää, Finland",
+      "email": "Anne.Montonen@grahampackaging.com",
+      "materials": [
+        "DELFIA Enhancement Solution",
+        "DELFIA Assay Buffer",
+        "Europium Solution 200ml",
+        "DELFIA Wash Concentrate"
+      ]
+    },
+    {
+      "supplier": "Getra Oy",
+      "city": "Turku, Finland",
+      "email": "sales@getra.fi",
+      "materials": [
+        "DELFIA Enhancement Solution",
+        "DELFIA Assay Buffer",
+        "DELFIA Wash Concentrate"
+      ]
+    },
+    {
+      "supplier": "ROCHE DIAGNOSTICS DEUTSCHLAND GMBH",
+      "city": "Mannheim, Germany",
+      "email": "hanna.metzger@roche.com",
+      "materials": [
+        "DELFIA Assay Buffer",
+        "Anti-AFP AF5/A2 Antibody",
+        "DELFIA Wash Concentrate"
+      ]
+    },
+    {
+      "supplier": "STORAENSO PACKAGING OY",
+      "city": "Helsinki, Finland",
+      "email": "Seija.boren@storaenso.com",
+      "materials": [
+        "DELFIA Wash Concentrate",
+        "SARS-CoV-2 Plus Kit"
+      ]
+    },
+    {
+      "supplier": "ISP chemicals LLC",
+      "city": "Wayne, NJ, USA",
+      "email": "BMcJury@ashland.com",
+      "materials": [
+        "DELFIA Wash Concentrate"
+      ]
+    },
+    {
+      "supplier": "VWR INTERNATIONAL OY",
+      "city": "Espoo, Finland",
+      "email": "anni.karsma@avantorsciences.com",
+      "materials": [
+        "DELFIA Wash Concentrate"
+      ]
+    }
+  ],
+  "bom_overview": [
+    {
+      "material": "1244-104",
+      "name": "DELFIA Enhancement Solution",
+      "total_components": 22,
+      "inhouse": 3,
+      "external": 19,
+      "missing_supplier": 9,
+      "external_suppliers": [
+        "Merck Life Science Oy",
+        "Anora Group Oyj",
+        "EMBALLATOR VAXJOPLAST",
+        "GRAHAM PACKAGING COMPANY OY",
+        "TARRAX OY"
+      ]
+    },
+    {
+      "material": "1244-106",
+      "name": "DELFIA Assay Buffer",
+      "total_components": 19,
+      "inhouse": 2,
+      "external": 17,
+      "missing_supplier": 7,
+      "external_suppliers": [
+        "ROCHE DIAGNOSTICS DEUTSCHLAND GMBH",
+        "Merck Life Science Oy",
+        "GRAHAM PACKAGING COMPANY OY",
+        "TARRAX OY",
+        "Getra Oy"
+      ]
+    },
+    {
+      "material": "13808190",
+      "name": "Microplate Deep Well (LSD)",
+      "total_components": 3,
+      "inhouse": 0,
+      "external": 3,
+      "missing_supplier": 0,
+      "external_suppliers": [
+        "Thermo Electron LED GmbH",
+        "TARRAX OY",
+        "INFORMA OY"
+      ]
+    },
+    {
+      "material": "3014-0010",
+      "name": "DELFIA Wash Concentrate",
+      "total_components": 18,
+      "inhouse": 2,
+      "external": 16,
+      "missing_supplier": 3,
+      "external_suppliers": [
+        "ISP chemicals LLC",
+        "VWR INTERNATIONAL OY",
+        "ROCHE DIAGNOSTICS DEUTSCHLAND GMBH",
+        "GRAHAM PACKAGING COMPANY OY",
+        "TARRAX OY"
+      ]
+    }
+  ],
+  "executive_risks": [
+    "**Lead Time Risk:** 1 material(s) have days of cover less than their lead time — meaning even if ordered today, stock may run out before delivery: DELFIA Wash Concentrate.",
+    "**Chronic Stockout Pattern:** DELFIA Wash Concentrate has experienced 7 breach periods — the worst in the plant. Structural replenishment review required.",
+    "**Declining Stock Trend + Critical Status:** DELFIA Wash Concentrate are both critical AND on a declining trend."
+  ],
+  "full_markdown": "# ARIA Supply Chain Intelligence — FI11 Turku Knowledge Base\n\n> **Generated:** 21 April 2026 18:34  \n> **Plant:** FI11 Turku (Revvity)  \n> **Data period:** up to Apr 2026  \n> **Purpose:** Grounded context for the ARIA chatbot assistant\n\n---\n\n## Plant Snapshot\n\n| Metric | Value |\n|--------|-------|\n| Total Materials Tracked | 7 |\n| 🔴 Critical | 1 |\n| 🟡 Warning | 0 |\n| 🟢 Healthy | 3 |\n| ⚪ Insufficient Data | 3 |\n| SKUs Needing Immediate Order | 1 |\n| Total Units Required (all replenishments) | 400 |\n| Most Urgent Material | **SARS-CoV-2 Plus Kit** — 0.0 days cover |\n\n\n## Critical Materials — Immediate Action Required\n\n### 🔴 DELFIA Wash Concentrate `3014-0010`\n\n| Field | Value |\n|-------|-------|\n| Stock-in-Hand (SIH) | **22 units** |\n| SAP Safety Stock | 150 units |\n| ARIA Recommended SS | 64 units |\n| Days of Cover | **1.9 days** |\n| Lead Time | 3 days |\n| Avg Monthly Demand | 352.3 units |\n| Demand Std Dev | 123.3 units |\n| Lot Size | 400 units |\n| Trend | Declining |\n| ABCDE Category | A |\n| Temp Condition | Z3 |\n\n**⛔ Replenishment Required:** Order **400 units** immediately.\n*Formula: CEILING(128/400)×400 = 400*\n\n**Historical breaches:** Jul 2024, Aug 2025, Jan 2026, Feb 2026, Mar 2026, Apr 2026 (7 total breach periods)  \n\n**External suppliers:** ISP chemicals LLC, VWR INTERNATIONAL OY, ROCHE DIAGNOSTICS DEUTSCHLAND GMBH, GRAHAM PACKAGING COMPANY OY  \n\n---\n\n\n## Warning Materials — Monitor Closely\n\n*No warning materials at this time.*\n\n\n## Healthy Materials\n\n- 🟢 **DELFIA Assay Buffer** — 101 units stock | 694.7d cover | Demand 4.4/mo | Trend: Rising\n- 🟢 **Microplate Deep Well (LSD)** — 826 units stock | 424.6d cover | Demand 58.4/mo | Trend: Rising\n- 🟢 **DELFIA Enhancement Solution** — 55 units stock | 177.1d cover | Demand 9.3/mo | Trend: Rising\n\n\n## Safety Stock Analysis\n\nARIA calculates recommended safety stock at 95% service level: `1.65 × σ_demand × √(lead_time/30)`\nSAP safety stock is sourced from Material Master. Current Inventory SS = 0 for all SKUs (known data gap).\n\n| Material | SAP SS | ARIA SS | Gap | Risk |\n|----------|--------|---------|-----|------|\n| Microplate Deep Well (LSD) | 0 | 19 | **+19** | 🟢 |\n| DELFIA Assay Buffer | 5 | 2 | **-3** | 🟢 |\n| DELFIA Enhancement Solution | 10 | 6 | **-4** | 🟢 |\n| DELFIA Wash Concentrate | 150 | 64 | **-86** | 🔴 |\n\n\n## Historical Stockout & Breach Summary\n\nA 'breach' = a period where Gross Stock fell below the SAP Safety Stock.\n\n| Material | Total Breaches | Risk | Trend |\n|----------|---------------|------|-------|\n| DELFIA Wash Concentrate | 7 | 🔴 CRITICAL | Declining |\n| DELFIA Assay Buffer | 2 | 🟢 HEALTHY | Rising |\n| DELFIA Enhancement Solution | 1 | 🟢 HEALTHY | Rising |\n| Microplate Deep Well (LSD) | 0 | 🟢 HEALTHY | Rising |\n\n\n## Immediate Replenishment Action List\n\n**1 SKUs require orders totalling 400 units.**\n\n| # | Material | Order Qty | Days Cover | Lead Time | Formula |\n|---|----------|-----------|------------|-----------|---------|\n| 1 | **DELFIA Wash Concentrate** | 400 units | 1.9d | 3d | `CEILING(128/400)×400 = 400` |\n\n\n## Supplier Consolidation Opportunities\n\n**8 suppliers supply multiple finished goods with pending orders — consolidating reduces procurement overhead.**\n\n- **TARRAX OY** (Tampere, Finland) — Email: `asiakaspalvelu@tarrax.fi` | Supplies: DELFIA Enhancement Solution, DELFIA Assay Buffer, Europium Solution 200ml, Microplate Deep Well (LSD)\n- **INFORMA OY** (Turku, Finland) — Email: `sapostotilaukset@revvity.com` | Supplies: Microplate Deep Well (LSD), Anti-AFP AF5/A2 Antibody, DELFIA Wash Concentrate, SARS-CoV-2 Plus Kit\n- **GRAHAM PACKAGING COMPANY OY** (Hyvinkää, Finland) — Email: `Anne.Montonen@grahampackaging.com` | Supplies: DELFIA Enhancement Solution, DELFIA Assay Buffer, Europium Solution 200ml, DELFIA Wash Concentrate\n- **Getra Oy** (Turku, Finland) — Email: `sales@getra.fi` | Supplies: DELFIA Enhancement Solution, DELFIA Assay Buffer, DELFIA Wash Concentrate\n- **ROCHE DIAGNOSTICS DEUTSCHLAND GMBH** (Mannheim, Germany) — Email: `hanna.metzger@roche.com` | Supplies: DELFIA Assay Buffer, Anti-AFP AF5/A2 Antibody, DELFIA Wash Concentrate\n- **STORAENSO PACKAGING OY** (Helsinki, Finland) — Email: `Seija.boren@storaenso.com` | Supplies: DELFIA Wash Concentrate, SARS-CoV-2 Plus Kit\n- **ISP chemicals LLC** (Wayne, NJ, USA) — Email: `BMcJury@ashland.com` | Supplies: DELFIA Wash Concentrate\n- **VWR INTERNATIONAL OY** (Espoo, Finland) — Email: `anni.karsma@avantorsciences.com` | Supplies: DELFIA Wash Concentrate\n\n\n## BOM & Supplier Overview (per Finished Good)\n\n**DELFIA Enhancement Solution** (1244-104) — 22 components: 3 inhouse, 19 external, 9 missing supplier info\n  - External suppliers: Merck Life Science Oy, Anora Group Oyj, EMBALLATOR VAXJOPLAST, GRAHAM PACKAGING COMPANY OY, TARRAX OY\n\n**DELFIA Assay Buffer** (1244-106) — 19 components: 2 inhouse, 17 external, 7 missing supplier info\n  - External suppliers: ROCHE DIAGNOSTICS DEUTSCHLAND GMBH, Merck Life Science Oy, GRAHAM PACKAGING COMPANY OY, TARRAX OY, Getra Oy\n\n**Microplate Deep Well (LSD)** (13808190) — 3 components: 0 inhouse, 3 external, 0 missing supplier info\n  - External suppliers: Thermo Electron LED GmbH, TARRAX OY, INFORMA OY\n\n**DELFIA Wash Concentrate** (3014-0010) — 18 components: 2 inhouse, 16 external, 3 missing supplier info\n  - External suppliers: ISP chemicals LLC, VWR INTERNATIONAL OY, ROCHE DIAGNOSTICS DEUTSCHLAND GMBH, GRAHAM PACKAGING COMPANY OY, TARRAX OY\n\n\n## Supply Chain Domain Knowledge\n\n### Key Concepts Used in This System\n\n**Safety Stock (SS)**\nBuffer inventory protecting against demand variability and supply delays.\n- SAP SS: manually set in Material Master (known to be outdated/zero for several SKUs)\n- ARIA SS: statistically computed at 95% service level — `1.65 × σ_demand × √(lead_time/30)`\n\n**Days of Cover**\nHow many days of demand current stock can cover.\n- Formula: `Stock-in-Hand ÷ (Avg Monthly Demand ÷ 30)`\n- Critical threshold: <15 days. Warning: 15–30 days.\n\n**Replenishment Quantity**\nOrder quantity when stock falls below safety stock.\n- Formula: `CEILING(Shortfall / Fixed Lot Size) × Fixed Lot Size`\n- Shortfall = `SAP Safety Stock − Stock-in-Hand`\n- Fixed Lot Size (FLS) sourced from Current Inventory planning parameters.\n\n**Lead Time**\nMaximum of: Planned Delivery Time, Inhouse Production Time (from Material Master).\n- If lead time > days of cover: immediate order required regardless of SS status.\n\n**ABCDE Classification**\n- A/B: High-value, high-priority materials. Closest monitoring.\n- C/D/E: Lower value but still tracked for continuity.\n\n**Temperature Conditions**\nRelevant for cold-chain materials requiring special handling and storage constraints.\n\n**BOM (Bill of Materials)**\n- E = Inhouse/Revvity produced component\n- F = External supplier component\n- Fixed Qty = component quantity is independent of finished good batch size\n\n**Stockout/Breach**\nA period where Gross Stock < Safety Stock. Each month of breach = risk of production halt.\n\n**Supplier Consolidation**\nWhen the same external supplier provides components for multiple finished goods,\ncombining purchase orders reduces lead times, logistics cost, and relationship overhead.\n\n### Plant Context\n- **Plant:** FI11, Turku, Finland (Revvity diagnostics)\n- **Data sources:** Material Master (SAP), Inventory Extract, Sales History, BOM\n- **Reporting currency:** Units (each material measured in its own unit of measure)\n- **Planning horizon:** Monthly periods (YYYYMM format)\n- **Sales data:** Includes customer orders, internal consumption, write-offs\n\n\n## Key Risks & Executive Observations\n\n- **Lead Time Risk:** 1 material(s) have days of cover less than their lead time — meaning even if ordered today, stock may run out before delivery: DELFIA Wash Concentrate.\n\n- **Chronic Stockout Pattern:** DELFIA Wash Concentrate has experienced 7 breach periods — the worst in the plant. Structural replenishment review required.\n\n- **Declining Stock Trend + Critical Status:** DELFIA Wash Concentrate are both critical AND on a declining trend.\n",
+  "domain_knowledge": [
+    ""
+  ]
+}
