@@ -5,3 +5,4 @@ openai
 openpyxl
 streamlit==1.55.0
 networkx
+streamlit-modal
