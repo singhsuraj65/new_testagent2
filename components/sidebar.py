@@ -1,5 +1,3 @@
-
-
 """
 components/sidebar.py
 Renders the left sidebar: logo, AI-agent status, API-key input, data reload button, and chatbot.
