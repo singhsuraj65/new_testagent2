@@ -345,11 +345,25 @@ def render():
         )
 
         # ── Inventory cost impact (FIXED: use SAP SS value, not current stock) ──
+        # unit_price = mat_row.get("unit_price", 0)
+        # if unit_price > 0:
+        #     # Use SAP safety stock value for "from", ARIA recommended SS for "to"
+        #     current_inv_value = ss_v * unit_price      # SAP safety stock value
+        #     rec_inv_value = rec * unit_price           # ARIA recommended safety stock value
+        #     diff_value = (rec - ss_v) * unit_price
+        #     if diff_value > 0:
+        #         cost_text = f"⚠️ **Additional investment required:** Following ARIA recommendation would increase inventory holding cost by **${diff_value:,.0f}** (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
+        #     elif diff_value < 0:
+        #         cost_text = f"✅ **Potential savings:** Following ARIA recommendation could reduce inventory holding cost by **${-diff_value:,.0f}** (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
+        #     else:
+        #         cost_text = f"ℹ️ No change in inventory holding cost (${current_inv_value:,.0f})."
+        #     st.markdown(f"<div class='note-box' style='margin-top:10px;'>{cost_text}</div>", unsafe_allow_html=True)
+
+                # ── Inventory cost impact (corrected format) ───────────────────────────
         unit_price = mat_row.get("unit_price", 0)
         if unit_price > 0:
-            # Use SAP safety stock value for "from", ARIA recommended SS for "to"
             current_inv_value = ss_v * unit_price      # SAP safety stock value
-            rec_inv_value = rec * unit_price           # ARIA recommended safety stock value
+            rec_inv_value = rec * unit_price           # ARIA recommended SS value
             diff_value = (rec - ss_v) * unit_price
             if diff_value > 0:
                 cost_text = f"⚠️ **Additional investment required:** Following ARIA recommendation would increase inventory holding cost by **${diff_value:,.0f}** (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
@@ -357,7 +371,7 @@ def render():
                 cost_text = f"✅ **Potential savings:** Following ARIA recommendation could reduce inventory holding cost by **${-diff_value:,.0f}** (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
             else:
                 cost_text = f"ℹ️ No change in inventory holding cost (${current_inv_value:,.0f})."
-            st.markdown(f"<div class='note-box' style='margin-top:10px;'>{cost_text}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='note-box' style='margin-top:10px;'>{cost_text}</div>", unsafe_allow_html=True)
         # ───────────────────────────────────────────────────────────────────────
 
         # ── "Explain ARIA SS Recommendation" button – now always visible when Azure is configured ──
