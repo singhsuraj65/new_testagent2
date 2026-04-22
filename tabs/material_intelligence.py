@@ -368,7 +368,7 @@ def render():
             if diff_value > 0:
                 cost_text = f"⚠️ **Additional investment required:** Following ARIA recommendation would increase inventory holding cost by **${diff_value:,.0f}** (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
             elif diff_value < 0:
-                cost_text = f"✅ **Potential savings:** Following ARIA recommendation could reduce inventory holding cost by **${-diff_value:,.0f}** (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
+                cost_text = f"✅ Potential savings: Following ARIA recommendation could reduce inventory holding cost by ${-diff_value:,.0f} (from ${current_inv_value:,.0f} to ${rec_inv_value:,.0f})."
             else:
                 cost_text = f"ℹ️ No change in inventory holding cost (${current_inv_value:,.0f})."
         st.markdown(f"<div class='note-box' style='margin-top:10px;'>{cost_text}</div>", unsafe_allow_html=True)
