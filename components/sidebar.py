@@ -114,8 +114,8 @@ def render_sidebar():
                 st.session_state.data_error = str(e)
                 st.error(f"Reload failed: {e}")
 
-        # ── Inline Chat ──────────────────────────────────────────────
-        render_sidebar_chat()
+        # # ── Inline Chat ──────────────────────────────────────────────
+        # render_sidebar_chat()
 
         # Footer
         st.markdown(
