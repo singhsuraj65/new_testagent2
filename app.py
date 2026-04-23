@@ -11,6 +11,8 @@ from streamlit_option_menu import option_menu
 from agent import get_azure_client
 from utils.helpers import AZURE_ENDPOINT, AZURE_API_VER
 from utils.state import init_session_state, auto_load_data
+from utils.auth import authenticate, load_users
+from utils.helpers import img_b64
 from components.sidebar import render_sidebar
 import tabs.command_center as tab_cc
 import tabs.material_intelligence as tab_mi
@@ -224,9 +226,202 @@ button[aria-label*="Deploy"] {
 </style>
 """, unsafe_allow_html=True)
 
+# Heuristic CSS: hide small, pill-shaped fixed elements that appear top-center.
+# This is a best-effort rule (temporary). Exclude our `.login-card` so it stays visible.
+st.markdown("""
+<style>
+/* Heuristic: hide small fixed-position, pill-shaped white elements near top-center except our login card */
+div[style*="position:fixed"]:not(.login-card){
+    display: none !important;
+    visibility: hidden !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ── Session state + data load ──────────────────────────────────────────────────
 load_dotenv()
 init_session_state()
+
+# Validate current_user against stored users — reset login if user not recognised
+try:
+    _users = load_users()
+    if st.session_state.get("current_user") and st.session_state.current_user not in _users:
+        st.session_state.logged_in = False
+        st.session_state.current_user = None
+except Exception:
+    # if user loading fails, ensure login is presented
+    st.session_state.logged_in = False
+    st.session_state.current_user = None
+
+# ── Simple login gate (reads credentials from APP_USERS / ADMIN_USER in .env) ──
+
+
+def _safe_rerun():
+    try:
+        if hasattr(st, "experimental_rerun"):
+            st.experimental_rerun()
+            return
+    except Exception:
+        pass
+    try:
+        # best-effort fallback: adjust query params to trigger a reload
+        if hasattr(st, "experimental_set_query_params"):
+            st.experimental_set_query_params(_reload=1)
+            st.stop()
+    except Exception:
+        # last resort: stop execution and ask user to refresh
+        st.stop()
+
+
+if not st.session_state.get("logged_in"):
+    try:
+        _logo = img_b64(os.path.join(os.path.dirname(__file__), "image.jpeg"))
+        _logo_html = f'<img src="data:image/jpeg;base64,{_logo}" style="height:54px;display:block;margin:0 auto 10px auto;" />'
+    except Exception:
+        _logo_html = ""
+
+    st.markdown(f"""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ── Page background ── */
+.stApp, [data-testid="stAppViewContainer"] {{
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+}}
+
+/* Hide sidebar, header, toolbar on login page */
+section[data-testid="stSidebar"]  {{ display: none !important; }}
+header, [data-testid="stToolbar"], [data-testid="stHeader"],
+[data-testid="stDecoration"]       {{ display: none !important; }}
+
+/* Push block-container to vertically center */
+.block-container {{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 100% !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+}}
+
+/* The outermost vertical block must also stretch and center */
+section.main > div > div[data-testid="stVerticalBlock"] {{
+    min-height: 100vh !important;
+    justify-content: center !important;
+    gap: 0 !important;
+}}
+
+/* ── Card styling — applied to the middle column ── */
+[data-testid="column"]:nth-child(2) {{
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07) !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}}
+
+/* Card top area (logo + title) */
+.lc-top {{
+    padding: 32px 28px 22px;
+    text-align: center;
+    border-bottom: 1px solid #F0F2F5;
+    background: #fff;
+}}
+.lc-sub {{
+    font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: #94A3B8; margin-bottom: 8px;
+    font-family: 'Inter', system-ui, sans-serif;
+}}
+.lc-title {{
+    font-size: 18px; font-weight: 700; color: #0F172A;
+    letter-spacing: -0.3px; margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+}}
+
+/* Card form body */
+.lc-body {{ padding: 22px 28px 8px; background: #fff; }}
+
+/* Card footer */
+.lc-footer {{
+    background: #F5F6F7; border-top: 1px solid #ECEEF1;
+    padding: 12px 20px; text-align: center;
+    font-size: 11px; color: #94A3B8;
+    font-family: 'Inter', system-ui, sans-serif;
+}}
+
+/* ── Form / input overrides ── */
+[data-testid="stForm"] {{
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}}
+.stTextInput > label {{
+    font-size: 10px !important; font-weight: 700 !important;
+    letter-spacing: 1.5px !important; text-transform: uppercase !important;
+    color: #64748B !important; margin-bottom: 4px !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+}}
+.stTextInput > div > div {{
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+}}
+.stTextInput > div > div > input {{
+    padding: 10px 12px !important; font-size: 13px !important;
+    color: #1E293B !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+}}
+.stTextInput {{ margin-bottom: 12px !important; }}
+
+/* Sign In button */
+.stFormSubmitButton > button {{
+    background: #F47B25 !important; color: #fff !important;
+    border: none !important; border-radius: 8px !important;
+    font-size: 14px !important; font-weight: 700 !important;
+    padding: 12px 0 !important; width: 100% !important;
+    cursor: pointer !important; margin-top: 4px !important;
+    box-shadow: 0 3px 12px rgba(244,123,37,0.40) !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+    transition: background 0.18s !important;
+}}
+.stFormSubmitButton > button:hover {{
+    background: #D96A18 !important;
+}}
+</style>
+
+<div class="lc-top">
+  {_logo_html}
+  <div class="lc-sub">Supply Intelligence</div>
+  <div class="lc-title">Sign in to continue</div>
+</div>
+<div class="lc-body">
+""", unsafe_allow_html=True)
+
+    # Use columns to constrain width — the ONLY way Streamlit widgets respect centering
+    _l, _mid, _r = st.columns([1.2, 1, 1.2])
+    with _mid:
+        with st.form("login_form"):
+            uname = st.text_input("Username", placeholder="your username")
+            pwd   = st.text_input("Password", type="password", placeholder="••••••••")
+            submitted = st.form_submit_button("⊙  Sign In", use_container_width=True)
+
+        if submitted:
+            if authenticate(uname, pwd):
+                st.session_state.logged_in = True
+                st.session_state.current_user = uname
+                _safe_rerun()
+            else:
+                st.error("Invalid username or password.")
+
+    st.markdown("""
+</div>
+<div class="lc-footer">Supply Intelligence &nbsp;·&nbsp; Access is by invitation only</div>
+""", unsafe_allow_html=True)
+
+    st.stop()
 
 # ── Azure client from environment
 if st.session_state.azure_client is None:

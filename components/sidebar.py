@@ -12,6 +12,25 @@ from components.chatbot import render_sidebar_chat
 _LOGO_PATH = os.path.join(os.path.dirname(__file__), "..", "image.jpeg")
 _logo_b64 = img_b64(_LOGO_PATH)
 
+
+def _safe_rerun():
+    try:
+        if hasattr(st, "experimental_rerun"):
+            st.experimental_rerun()
+            return
+        if hasattr(st, "rerun"):
+            st.rerun()
+            return
+    except Exception:
+        pass
+    try:
+        if hasattr(st, "experimental_set_query_params"):
+            st.experimental_set_query_params(_reload=1)
+            st.stop()
+    except Exception:
+        st.stop()
+
+
 # ============================================================
 # Set sidebar width (simple and works)
 # ============================================================
@@ -88,10 +107,21 @@ def render_sidebar():
                     for _, row in st.session_state.summary.iterrows()
                 }
                 st.success("Data reloaded successfully!")
-                st.rerun()
+                _safe_rerun()
             except Exception as e:
                 st.session_state.data_error = str(e)
                 st.error(f"Reload failed: {e}")
+
+        # Signed-in user + logout
+        if st.session_state.get("current_user"):
+            st.markdown(
+                f"<div style='padding:8px 0;'><small style='color:var(--t3)'>Signed in as <b>{st.session_state.get('current_user')}</b></small></div>",
+                unsafe_allow_html=True,
+            )
+            if st.button("Logout", key="logout", use_container_width=True):
+                st.session_state.logged_in = False
+                st.session_state.current_user = None
+                _safe_rerun()
 
         # # ── Inline Chat ──────────────────────────────────────────────
         # render_sidebar_chat()
