@@ -210,9 +210,16 @@ button[kind="header"] {
 section[data-testid="stSidebar"] {
     transition: margin-left 0.3s ease !important;
 }
-header {
-    visibility: visible !important;
-    background: transparent !important;
+/* Hide Streamlit platform deploy toolbar and top banner */
+header,
+[data-testid="stToolbar"],
+[data-testid="stHeader"],
+[aria-label="Deploy this app"],
+button[title="Deploy this app"],
+button[aria-label="Deploy"],
+button[title*="Deploy"],
+button[aria-label*="Deploy"] {
+    display: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -224,15 +231,26 @@ init_session_state()
 # ── Azure client from environment
 if st.session_state.azure_client is None:
     azure_key = os.getenv("AZURE_OPENAI_KEY") or os.getenv("OPENAI_API_KEY")
+    azure_endpoint = (
+        os.getenv("AZURE_OPENAI_ENDPOINT")
+        or os.getenv("OPENAI_API_BASE")
+        or os.getenv("AZURE_OPENAI_TARGET_URI")
+        or os.getenv("TARGET_URI")
+        or AZURE_ENDPOINT
+    )
     if azure_key:
-        try:
-            st.session_state.azure_client = get_azure_client(
-                azure_key, AZURE_ENDPOINT, AZURE_API_VER
-            )
-        except Exception as exc:
+        if not azure_endpoint:
             st.warning(
-                "Azure OpenAI key found in .env, but client initialization failed.")
-            st.session_state.data_error = str(exc)
+                "Azure OpenAI key found, but Target URI is not configured.")
+        else:
+            try:
+                st.session_state.azure_client = get_azure_client(
+                    azure_key, azure_endpoint, AZURE_API_VER
+                )
+            except Exception as exc:
+                st.warning(
+                    "Azure OpenAI key found in .env, but client initialization failed.")
+                st.session_state.data_error = str(exc)
 
 auto_load_data()
 
