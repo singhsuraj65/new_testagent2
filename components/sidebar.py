@@ -5,8 +5,7 @@ Renders the left sidebar with custom width, compact chat, and all controls.
 
 import os
 import streamlit as st
-from agent import get_azure_client
-from utils.helpers import img_b64, AZURE_ENDPOINT, AZURE_API_VER
+from utils.helpers import img_b64
 from data_loader import load_all, build_material_summary
 from components.chatbot import render_sidebar_chat
 
@@ -75,35 +74,15 @@ def render_sidebar():
             unsafe_allow_html=True,
         )
 
-        # API key input
-        st.markdown(
-            "<div style='padding:4px 0 2px;'><div style='font-size:8px;color:var(--t3);letter-spacing:0.8px;'>API KEY</div></div>",
-            unsafe_allow_html=True,
-        )
-        azure_key = st.text_input(
-            "k",
-            "",
-            type="password",
-            placeholder="Azure OpenAI key…",
-            label_visibility="collapsed",
-            key="az_key",
-        )
-        if azure_key and not st.session_state.azure_client:
-            try:
-                st.session_state.azure_client = get_azure_client(
-                    azure_key, AZURE_ENDPOINT, AZURE_API_VER
-                )
-            except Exception:
-                pass
-
         # Reload data button
-        if st.button("⟳ Reload Data", use_container_width=True, key="reload_data"):
+        if st.button("⟳ Refresh Data", use_container_width=True, key="reload_data"):
             st.session_state.data = None
             st.session_state.summary = None
             st.session_state.data_error = ""
             try:
                 st.session_state.data = load_all()
-                st.session_state.summary = build_material_summary(st.session_state.data)
+                st.session_state.summary = build_material_summary(
+                    st.session_state.data)
                 st.session_state.material_labels = {
                     row["material"]: row["name"]
                     for _, row in st.session_state.summary.iterrows()
@@ -285,16 +264,16 @@ def render_sidebar():
 # #             min-width: 320px;
 # #             width: 320px;
 # #         }
-# #         [data-testid="stSidebar"] .stMarkdown, 
-# #         [data-testid="stSidebar"] .stText, 
-# #         [data-testid="stSidebar"] .stButton, 
+# #         [data-testid="stSidebar"] .stMarkdown,
+# #         [data-testid="stSidebar"] .stText,
+# #         [data-testid="stSidebar"] .stButton,
 # #         [data-testid="stSidebar"] .stCaption,
 # #         [data-testid="stSidebar"] .stChatMessage,
 # #         [data-testid="stSidebar"] .stChatInput {
 # #             font-size: 12px !important;
 # #         }
-# #         [data-testid="stSidebar"] .stMarkdown h1, 
-# #         [data-testid="stSidebar"] .stMarkdown h2, 
+# #         [data-testid="stSidebar"] .stMarkdown h1,
+# #         [data-testid="stSidebar"] .stMarkdown h2,
 # #         [data-testid="stSidebar"] .stMarkdown h3 {
 # #             font-size: 14px !important;
 # #         }

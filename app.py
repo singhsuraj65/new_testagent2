@@ -3,17 +3,21 @@ ARIA Supply Intelligence · MResult
 app.py — entry point: page config, global CSS, sidebar, topbar, navigation, routing.
 """
 
+import os
 import streamlit as st
+from dotenv import load_dotenv
 from streamlit_option_menu import option_menu
 
+from agent import get_azure_client
+from utils.helpers import AZURE_ENDPOINT, AZURE_API_VER
 from utils.state import init_session_state, auto_load_data
 from components.sidebar import render_sidebar
-import tabs.command_center       as tab_cc
+import tabs.command_center as tab_cc
 import tabs.material_intelligence as tab_mi
-import tabs.risk_radar            as tab_rr
-import tabs.scenario_engine       as tab_se
-import tabs.supply_network        as tab_sn
-import tabs.ask_aria              as tab_aa   # NEW: Ask ARIA chat tab
+import tabs.risk_radar as tab_rr
+import tabs.scenario_engine as tab_se
+import tabs.supply_network as tab_sn
+import tabs.ask_aria as tab_aa   # NEW: Ask ARIA chat tab
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -214,7 +218,22 @@ header {
 """, unsafe_allow_html=True)
 
 # ── Session state + data load ──────────────────────────────────────────────────
+load_dotenv()
 init_session_state()
+
+# ── Azure client from environment
+if st.session_state.azure_client is None:
+    azure_key = os.getenv("AZURE_OPENAI_KEY") or os.getenv("OPENAI_API_KEY")
+    if azure_key:
+        try:
+            st.session_state.azure_client = get_azure_client(
+                azure_key, AZURE_ENDPOINT, AZURE_API_VER
+            )
+        except Exception as exc:
+            st.warning(
+                "Azure OpenAI key found in .env, but client initialization failed.")
+            st.session_state.data_error = str(exc)
+
 auto_load_data()
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
@@ -248,8 +267,10 @@ st.markdown(
 # ── Navigation ─────────────────────────────────────────────────────────────────
 selected = option_menu(
     menu_title=None,
-    options=["Command Center", "Material Intelligence", "Risk Radar", "Scenario Engine", "Supply Network", "Ask ARIA"],
-    icons=["grid", "search", "broadcast", "lightning", "diagram-3", "chat-dots"],
+    options=["Command Center", "Material Intelligence", "Risk Radar",
+             "Scenario Engine", "Supply Network", "Ask ARIA"],
+    icons=["grid", "search", "broadcast",
+           "lightning", "diagram-3", "chat-dots"],
     orientation="horizontal",
     styles={
         "container":       {"padding": "5px 20px", "background-color": "#FFFFFF", "border-bottom": "1px solid #E2E8F0"},
@@ -264,12 +285,18 @@ selected = option_menu(
 st.markdown('<div style="padding: 10px 14px;">', unsafe_allow_html=True)
 
 # ── Tab routing ────────────────────────────────────────────────────────────────
-if   selected == "Command Center":        tab_cc.render()
-elif selected == "Material Intelligence": tab_mi.render()
-elif selected == "Risk Radar":            tab_rr.render()
-elif selected == "Scenario Engine":       tab_se.render()
-elif selected == "Supply Network":        tab_sn.render()
-elif selected == "Ask ARIA":              tab_aa.render()
+if selected == "Command Center":
+    tab_cc.render()
+elif selected == "Material Intelligence":
+    tab_mi.render()
+elif selected == "Risk Radar":
+    tab_rr.render()
+elif selected == "Scenario Engine":
+    tab_se.render()
+elif selected == "Supply Network":
+    tab_sn.render()
+elif selected == "Ask ARIA":
+    tab_aa.render()
 
 st.markdown('</div>', unsafe_allow_html=True)
 
