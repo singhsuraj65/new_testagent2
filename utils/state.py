@@ -20,6 +20,8 @@ def init_session_state():
         ("cc_insight",        None),
         ("last_analysed_mat", None),
         ("material_labels",   {}),
+        ("logged_in",        False),
+        ("current_user",     None),
     ]
     for key, value in defaults:
         if key not in st.session_state:
@@ -36,8 +38,9 @@ def auto_load_data():
         return  # already loaded (or already failed)
 
     try:
-        st.session_state.data    = load_all()
-        st.session_state.summary = build_material_summary(st.session_state.data)
+        st.session_state.data = load_all()
+        st.session_state.summary = build_material_summary(
+            st.session_state.data)
         st.session_state.material_labels = {
             row["material"]: row["name"]
             for _, row in st.session_state.summary.iterrows()

@@ -5,13 +5,31 @@ Renders the left sidebar with custom width, compact chat, and all controls.
 
 import os
 import streamlit as st
-from agent import get_azure_client
-from utils.helpers import img_b64, AZURE_ENDPOINT, AZURE_API_VER
+from utils.helpers import img_b64
 from data_loader import load_all, build_material_summary
 from components.chatbot import render_sidebar_chat
 
 _LOGO_PATH = os.path.join(os.path.dirname(__file__), "..", "image.jpeg")
 _logo_b64 = img_b64(_LOGO_PATH)
+
+
+def _safe_rerun():
+    try:
+        if hasattr(st, "experimental_rerun"):
+            st.experimental_rerun()
+            return
+        if hasattr(st, "rerun"):
+            st.rerun()
+            return
+    except Exception:
+        pass
+    try:
+        if hasattr(st, "experimental_set_query_params"):
+            st.experimental_set_query_params(_reload=1)
+            st.stop()
+    except Exception:
+        st.stop()
+
 
 # ============================================================
 # Set sidebar width (simple and works)
@@ -75,44 +93,35 @@ def render_sidebar():
             unsafe_allow_html=True,
         )
 
-        # API key input
-        st.markdown(
-            "<div style='padding:4px 0 2px;'><div style='font-size:8px;color:var(--t3);letter-spacing:0.8px;'>API KEY</div></div>",
-            unsafe_allow_html=True,
-        )
-        azure_key = st.text_input(
-            "k",
-            "",
-            type="password",
-            placeholder="Azure OpenAI key…",
-            label_visibility="collapsed",
-            key="az_key",
-        )
-        if azure_key and not st.session_state.azure_client:
-            try:
-                st.session_state.azure_client = get_azure_client(
-                    azure_key, AZURE_ENDPOINT, AZURE_API_VER
-                )
-            except Exception:
-                pass
-
         # Reload data button
-        if st.button("⟳ Reload Data", use_container_width=True, key="reload_data"):
+        if st.button("⟳ Refresh Data", use_container_width=True, key="reload_data"):
             st.session_state.data = None
             st.session_state.summary = None
             st.session_state.data_error = ""
             try:
                 st.session_state.data = load_all()
-                st.session_state.summary = build_material_summary(st.session_state.data)
+                st.session_state.summary = build_material_summary(
+                    st.session_state.data)
                 st.session_state.material_labels = {
                     row["material"]: row["name"]
                     for _, row in st.session_state.summary.iterrows()
                 }
                 st.success("Data reloaded successfully!")
-                st.rerun()
+                _safe_rerun()
             except Exception as e:
                 st.session_state.data_error = str(e)
                 st.error(f"Reload failed: {e}")
+
+        # Signed-in user + logout
+        if st.session_state.get("current_user"):
+            st.markdown(
+                f"<div style='padding:8px 0;'><small style='color:var(--t3)'>Signed in as <b>{st.session_state.get('current_user')}</b></small></div>",
+                unsafe_allow_html=True,
+            )
+            if st.button("Logout", key="logout", use_container_width=True):
+                st.session_state.logged_in = False
+                st.session_state.current_user = None
+                _safe_rerun()
 
         # # ── Inline Chat ──────────────────────────────────────────────
         # render_sidebar_chat()
@@ -285,16 +294,16 @@ def render_sidebar():
 # #             min-width: 320px;
 # #             width: 320px;
 # #         }
-# #         [data-testid="stSidebar"] .stMarkdown, 
-# #         [data-testid="stSidebar"] .stText, 
-# #         [data-testid="stSidebar"] .stButton, 
+# #         [data-testid="stSidebar"] .stMarkdown,
+# #         [data-testid="stSidebar"] .stText,
+# #         [data-testid="stSidebar"] .stButton,
 # #         [data-testid="stSidebar"] .stCaption,
 # #         [data-testid="stSidebar"] .stChatMessage,
 # #         [data-testid="stSidebar"] .stChatInput {
 # #             font-size: 12px !important;
 # #         }
-# #         [data-testid="stSidebar"] .stMarkdown h1, 
-# #         [data-testid="stSidebar"] .stMarkdown h2, 
+# #         [data-testid="stSidebar"] .stMarkdown h1,
+# #         [data-testid="stSidebar"] .stMarkdown h2,
 # #         [data-testid="stSidebar"] .stMarkdown h3 {
 # #             font-size: 14px !important;
 # #         }
