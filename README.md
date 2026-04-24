@@ -23,14 +23,14 @@ Add simple application users via environment variables (for local/demo use):
 # Preferred: use `data/users.json` in project root (takes precedence).
 # Example `data/users.json` contents:
 # {
-#   "alice": "alicepass",
-#   "bob": "bobpass",
-#   "admin": "adminpass"
+#   "alice": "*",
+#   "bob": "*",
+#   "admin": "*"
 # }
 #
 # Fallback (env): comma-separated username:password pairs
-APP_USERS=alice:alicepass,bob:bobpass
+APP_USERS=alice:*,bob:*
 # Optional single admin entry (admin has same access as other users)
 ADMIN_USER=admin
-ADMIN_PASS=adminpass
+ADMIN_PASS=*
 ```
